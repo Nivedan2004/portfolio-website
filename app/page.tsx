@@ -8,9 +8,16 @@ import {
   BriefcaseBusiness,
   GraduationCap,
 } from "lucide-react";
-import { experience, education, projects, skillGroups, type ResumeEntry } from "@/lib/content";
+import {
+  experience,
+  education,
+  projects,
+  skillGroups,
+  type ResumeEntry,
+} from "@/lib/content";
 import { Portrait } from "@/components/portrait";
-import { VoiceWidget } from "@/components/voice-widget";
+// TODO - Restore this import when enabling the portfolio voice agent.
+// import { VoiceWidget } from "@/components/voice-widget";
 function Entries({ items }: { items: ResumeEntry[] }) {
   return (
     <div className="entries">
@@ -45,11 +52,25 @@ function Entries({ items }: { items: ResumeEntry[] }) {
               <div className="entry-coursework">
                 <p>{item.detail}</p>
                 <h4 className="coursework-label">Current coursework</h4>
-                {item.courses.map(course => (
-                  <section className="course-focus" key={course.title} aria-label={course.title}>
+                {item.courses.map((course) => (
+                  <section
+                    className="course-focus"
+                    key={course.title}
+                    aria-label={course.title}
+                  >
                     <h4>{course.title}</h4>
-                    <ul>{course.topics.map(topic => <li key={topic}>{topic}</li>)}</ul>
-                    <a href={course.source} target="_blank" rel="noopener noreferrer">Course outline ↗</a>
+                    <ul>
+                      {course.topics.map((topic) => (
+                        <li key={topic}>{topic}</li>
+                      ))}
+                    </ul>
+                    <a
+                      href={course.source}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Course outline ↗
+                    </a>
                   </section>
                 ))}
               </div>
@@ -85,7 +106,10 @@ export default function Home() {
           <p className="eyebrow discipline">
             Software engineering <span>×</span> Security
           </p>
+          {/* TODO - Restore the ElevenLabs voice agent UI after completing
+              docs/VOICE_AGENT_TODO.md. Keep the existing implementation.
           <VoiceWidget />
+          */}
         </div>
         <Portrait />
       </section>
