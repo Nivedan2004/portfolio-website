@@ -2395,3 +2395,27 @@ details[open] > summary .expand-icon {
     will-change: auto;
   }
 }
+
+/* Leadership and awards are visible alongside the rest of the portfolio. */
+.recognition { padding: 34px 0 40px; border-bottom: 1px solid var(--line); }
+.recognition-heading { margin-bottom: 25px; }
+.recognition-heading h2 { font-size: 28px; font-weight: 600; letter-spacing: -1px; }
+.recognition-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.recognition-card { position: relative; padding: 28px; border: 1px solid #383832; border-radius: 12px; background: #11110f; overflow: hidden; transition: border-color 220ms, transform 220ms; }
+.recognition-card:hover { border-color: #777462; transform: translateY(-3px); }
+.recognition-card-top { display: flex; align-items: center; gap: 12px; color: #c2bda4; margin-bottom: 28px; }
+.recognition-card-top span { font-size: 10px; text-transform: uppercase; letter-spacing: 1.8px; }
+.recognition-card h3 { font-family: "Space Grotesk", sans-serif; font-size: clamp(26px, 3vw, 36px); font-weight: 500; line-height: 1.15; letter-spacing: -1.2px; }
+.recognition-focus { margin-top: 9px; font-size: 16px; color: #c8c8bf; line-height: 1.5; }
+.recognition-meta { display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between; margin-top: 29px; padding-top: 18px; border-top: 1px solid #30302b; font-size: 12px; color: #98988e; line-height: 1.6; }
+.recognition-meta strong { font-weight: 500; color: #babab0; }
+.recognition-award { background: radial-gradient(ellipse at top right, #29251b 0%, #11110f 70%); }
+.recognition-award .recognition-card-top { color: #e0c486; }
+@media (max-width: 600px) {
+  .recognition { padding: 28px 0; }
+  .recognition-heading h2 { font-size: 25px; }
+  .recognition-grid { grid-template-columns: 1fr; gap: 16px; }
+  .recognition-card { padding: 23px; }
+  .recognition-card-top { margin-bottom: 22px; }
+}
+@media (prefers-reduced-motion: reduce) { .recognition-card:hover { transform: none; } }

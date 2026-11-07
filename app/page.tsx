@@ -7,6 +7,8 @@ import {
   Sparkles,
   BriefcaseBusiness,
   GraduationCap,
+  Trophy,
+  Users,
 } from "lucide-react";
 import {
   experience,
@@ -43,7 +45,7 @@ function Entries({ items }: { items: ResumeEntry[] }) {
               ))}
             </div>
             <span className="entry-action">
-              <span>Read the story</span>
+              <span>Read more</span>
               <Plus className="expand-icon" size={16} />
             </span>
           </summary>
@@ -221,19 +223,36 @@ export default function Home() {
             );
           })}
         </div>
-        <AnimatedDetails className="recognition">
-          <summary>
-            <span>Leadership & recognition</span>
-            <Plus size={18} className="expand-icon" />
-          </summary>
-          <div className="skills-expanded">
-            <p>
-              Vice President, Sponsorship & Fundraising, E-Cell RV University ·
-              Mar 2023 – Feb 2024
-            </p>
-            <p>IEEE CCEM 2023 Student Project Showcase Proposal Winner.</p>
-          </div>
-        </AnimatedDetails>
+      </section>
+      <section className="recognition" aria-labelledby="recognition-title">
+        <div className="section-heading recognition-heading">
+          <h2 id="recognition-title">Leadership & recognition</h2>
+        </div>
+        <div className="recognition-grid">
+          <article className="recognition-card">
+            <div className="recognition-card-top">
+              <Users size={24} strokeWidth={1.5} aria-hidden="true" />
+              <span>Leadership</span>
+            </div>
+            <h3>Vice President</h3>
+            <p className="recognition-focus">Sponsorship & Fundraising</p>
+            <div className="recognition-meta">
+              <strong>E-Cell · RV University</strong>
+              <span>Mar 2023 – Feb 2024</span>
+            </div>
+          </article>
+          <article className="recognition-card recognition-award">
+            <div className="recognition-card-top">
+              <Trophy size={24} strokeWidth={1.5} aria-hidden="true" />
+              <span>Recognition · 2023</span>
+            </div>
+            <h3>Proposal Winner</h3>
+            <p className="recognition-focus">Student Project Showcase</p>
+            <div className="recognition-meta">
+              <strong>IEEE CCEM 2023</strong>
+            </div>
+          </article>
+        </div>
       </section>
     </main>
   );
