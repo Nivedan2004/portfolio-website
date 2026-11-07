@@ -1474,24 +1474,23 @@ details[open] > summary .expand-icon {
   font-display: swap;
   src: url("/fonts/space-grotesk-variable.ttf") format("truetype");
 }
-/* Shared rows keep both résumé columns aligned, including expanded entries. */
+/* Independent columns prevent an expanded entry from stretching its neighbor. */
 .credentials {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px 26px;
   padding: 36px 0;
+  align-items: start;
 }
 .credentials > section {
-  display: grid;
-  grid-template-rows: subgrid;
-  grid-row: span 3;
+  display: block;
   min-width: 0;
 }
 .credential-heading {
   display: flex;
   align-items: center;
   gap: 11px;
-  margin: 0 0 4px;
+  margin: 0 0 24px;
 }
 .credential-heading > svg {
   color: #a9a99d;
@@ -1504,10 +1503,53 @@ details[open] > summary .expand-icon {
   font-weight: 600;
 }
 .credentials .entries {
-  display: contents;
+  display: grid;
+  gap: 20px;
   margin: 0;
   padding: 0;
   border: 0;
+}
+.entry-coursework > p {
+  color: #c5c5b9;
+}
+.entry-coursework .coursework-label {
+  color: #939382;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  margin: 24px 0 16px;
+}
+.course-focus {
+  padding-left: 15px;
+  border-left: 2px solid #555547;
+}
+.course-focus + .course-focus {
+  margin-top: 25px;
+}
+.course-focus h4 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #f0f0e5;
+  margin: 0 0 12px;
+  letter-spacing: -0.3px;
+}
+.course-focus ul {
+  font-size: 13px;
+  line-height: 1.8;
+}
+.course-focus a {
+  display: inline-block;
+  margin-top: 12px;
+  color: #9e9e8c;
+  font-size: 10px;
+  text-underline-offset: 3px;
+}
+.course-focus a:hover {
+  color: #efefe4;
+  text-decoration: underline;
 }
 .credentials .entry {
   min-width: 0;

@@ -1,3 +1,4 @@
+import { AnimatedDetails } from "@/components/animated-details";
 import {
   Plus,
   Braces,
@@ -7,14 +8,14 @@ import {
   BriefcaseBusiness,
   GraduationCap,
 } from "lucide-react";
-import { experience, education, projects, skillGroups } from "@/lib/content";
+import { experience, education, projects, skillGroups, type ResumeEntry } from "@/lib/content";
 import { Portrait } from "@/components/portrait";
 import { VoiceWidget } from "@/components/voice-widget";
-function Entries({ items }: { items: typeof experience }) {
+function Entries({ items }: { items: ResumeEntry[] }) {
   return (
     <div className="entries">
       {items.map((item) => (
-        <details className="entry" key={item.name}>
+        <AnimatedDetails className="entry" key={item.name}>
           <summary>
             <div
               className={
@@ -40,9 +41,21 @@ function Entries({ items }: { items: typeof experience }) {
             </span>
           </summary>
           <div className="entry-detail">
-            {item.detail.length > 250 ? (
+            {item.courses?.length ? (
+              <div className="entry-coursework">
+                <p>{item.detail}</p>
+                <h4 className="coursework-label">Current coursework</h4>
+                {item.courses.map(course => (
+                  <section className="course-focus" key={course.title} aria-label={course.title}>
+                    <h4>{course.title}</h4>
+                    <ul>{course.topics.map(topic => <li key={topic}>{topic}</li>)}</ul>
+                    <a href={course.source} target="_blank" rel="noopener noreferrer">Course outline ↗</a>
+                  </section>
+                ))}
+              </div>
+            ) : item.bullets?.length ? (
               <ul>
-                {item.detail.split(/(?<=\.) /).map((sentence) => (
+                {item.bullets.map((sentence) => (
                   <li key={sentence}>{sentence}</li>
                 ))}
               </ul>
@@ -50,7 +63,7 @@ function Entries({ items }: { items: typeof experience }) {
               <p>{item.detail}</p>
             )}
           </div>
-        </details>
+        </AnimatedDetails>
       ))}
     </div>
   );
@@ -98,7 +111,7 @@ export default function Home() {
           <span className="section-aside">A few things I’ve built</span>
         </div>
         {projects.map((project, index) => (
-          <details className="project" key={project.name} open={index === 0}>
+          <AnimatedDetails className="project" key={project.name}>
             <summary>
               <span className="project-number">0{index + 1}</span>
               <div className="project-heading">
@@ -154,7 +167,7 @@ export default function Home() {
                 ))}
               </ul>
             </div>
-          </details>
+          </AnimatedDetails>
         ))}
       </section>
       <section className="skills" aria-labelledby="skills-title">
@@ -184,7 +197,7 @@ export default function Home() {
             );
           })}
         </div>
-        <details className="recognition">
+        <AnimatedDetails className="recognition">
           <summary>
             <span>Leadership & recognition</span>
             <Plus size={18} className="expand-icon" />
@@ -196,7 +209,7 @@ export default function Home() {
             </p>
             <p>IEEE CCEM 2023 Student Project Showcase Proposal Winner.</p>
           </div>
-        </details>
+        </AnimatedDetails>
       </section>
     </main>
   );

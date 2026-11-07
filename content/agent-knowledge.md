@@ -4,7 +4,9 @@ Source: supplied latest résumé, portfolio implementation brief, and owner-appr
 
 Nivedan B R builds software and is interested in security and understanding risks before shipping. Simba is his brother.
 
-Education: University of Washington, Bothell, M.S. Computer Science and Software Engineering, 2026–present, expected August 2028. RV University, Bangalore, B.Tech (Hons.) Computer Science with a minor in Fintech, 2022–2026.
+Education: University of Washington, M.S. Computer Science and Software Engineering, 2026–present. The owner is in his first quarter and is currently taking Parallel Programming in Grid and Cloud and Information Assurance and Cybersecurity. Public copy uses University of Washington and omits expected graduation dates. RV University, Bangalore, B.Tech (Hons.) Computer Science with a minor in Fintech, 2022–2026.
+
+Current course focus (topics being studied, not completed achievements): Parallel Programming in Grid and Cloud covers OpenMP/MPI, task/data parallelism with MapReduce and Spark, performance benchmarking, and parallel-job management. Information Assurance and Cybersecurity covers secure development lifecycle, threats/vulnerabilities/risk, confidentiality/integrity/availability, cryptology, privacy, and security governance. Source: official UW Autumn 2026 CSS 534 syllabus and CSS 517 catalog description. Do not invent completed course projects, grades, or mastery.
 
 Experience: Lawgical Software Development Engineer Intern, June 2025–August 2026; San Francisco startup, remote. Second engineer, 390+ production PRs; contributed to growth from zero to 15+ US law firm customers. Full-stack work included questionnaires, AI intake/follow-ups, browser voice, video pipelines, CI/CD, and reviews. Led SOC 2 Type II readiness and HIPAA compliance efforts; remediated penetration-test findings. Preparing for penetration testing increased his curiosity about security and attention to risks and trade-offs. U4U Tech Intern, January–June 2024, Berkeley, remote: educational/wellbeing platform features for teen girls, including Fit Crush and a compatibility-check game.
 

@@ -10,7 +10,7 @@ test('routes, keyboard expansion, destinations, and browser history', async ({ p
   await entry.locator('summary').focus();
   await page.keyboard.press('Enter');
   await expect(entry).toHaveAttribute('open', '');
-  await expect(entry).toContainText('390+ production PRs');
+  await expect(entry).toContainText('390+ production pull requests');
   await page.keyboard.press('Enter');
   await expect(entry).not.toHaveAttribute('open', '');
   await page.getByRole('link', { name: 'Contact me', exact: true }).click();

@@ -25,42 +25,80 @@ export const skillGroups = [
       "OpenAI APIs, Vertex AI, ElevenLabs, OpenAI Codex, PySpark, GeoPandas, Plotly",
   },
 ];
-export const experience = [
+export type ResumeEntry = {
+  name: string;
+  logo: string;
+  role: string;
+  dates: string;
+  highlights: string[];
+  detail: string;
+  bullets?: string[];
+  courses?: { title: string; topics: string[]; source: string }[];
+};
+export const experience: ResumeEntry[] = [
   {
     name: "Lawgical",
     logo: "/logos/lawgical.png",
     role: "Software Development Engineer Intern",
     dates: "Jun 2025 – Aug 2026",
-    highlights: ["390+ production PRs", "15+ US law firm customers"],
-    detail:
-      "San Francisco startup · Remote. Second engineer; 390+ production PRs, contributing to growth from 0 to 15+ US law firm customers. End-to-end full-stack delivery across questionnaires, AI intake and follow-ups, browser voice, video pipelines, CI/CD, and code review. Led SOC 2 Type II readiness and HIPAA compliance efforts and penetration-test remediation. Preparing for penetration testing deepened my curiosity about security—and made me more deliberate about risks and trade-offs before shipping.",
+    highlights: ["San Francisco, CA"],
+    detail: "San Francisco, CA (Remote)",
+    bullets: [
+      "Joined as the startup’s second engineer; shipped 390+ production pull requests and built full-stack services supporting growth from 0 to 15+ US law firm customers in one year.",
+      "Owned features from problem definition and system design through implementation, testing, and production readiness; made technical decisions and coordinated delivery with stakeholders.",
+      "Engineered a graph-based legal-intake questionnaire system using NestJS, TypeScript, and Supabase/PostgreSQL, with conditional branching, batched question delivery, flow validation, and row-level security.",
+      "Designed an asynchronous video-processing pipeline using FFmpeg and Cloud Run Jobs, with signed uploads and idempotent database operations to support safe retries; addressed database scaling limitations using PostgreSQL RPCs.",
+      "Built AI-powered intake and follow-up workflows integrating ElevenLabs, Twilio, OpenAI, and Vertex AI, including browser-based voice calls, webhook processing, and lead scoring.",
+      "Automated testing and deployment workflows with GitHub Actions CI/CD and structured cloud logging; reviewed pull requests for architecture, security, correctness, and maintainability.",
+      "Led SOC 2 Type II readiness and HIPAA compliance efforts; remediated penetration-test findings involving XSS, CSRF, authentication, session management, and access control, and automated dependency-security checks.",
+    ],
   },
   {
     name: "U4U",
     logo: "/logos/u4u.png",
     role: "Tech Intern",
     dates: "Jan 2024 – Jun 2024",
-    highlights: ["Teen wellbeing", "Fit Crush"],
-    detail:
-      "Berkeley, CA · Remote. Built educational and wellbeing features for teen girls, including Fit Crush and a compatibility-check game.",
+    highlights: ["Berkeley, CA"],
+    detail: "Berkeley, CA (Remote)",
+    bullets: [
+      "Collaborated with a cross-functional team to build educational and wellbeing platform features for teen girls, including Fit Crush and a compatibility-check game based on user-engagement goals.",
+    ],
   },
 ];
-export const education = [
+export const education: ResumeEntry[] = [
   {
     name: "University of Washington",
     logo: "/logos/uw-purple.png",
     role: "M.S. Computer Science & Software Engineering",
     dates: "2026 – present",
-    highlights: ["Expected Aug 2028", "UW Bothell"],
+    highlights: ["Bothell, WA"],
     detail:
-      "University of Washington, Bothell. Expected graduation: August 2028.",
+      "My first quarter at the University of Washington, studying parallel computing and how to build more secure software systems.",
+    courses: [
+      {
+        title: "Parallel Programming in Grid and Cloud",
+        topics: [
+          "Shared-memory and message-passing programming with OpenMP and MPI.",
+          "Task and data parallelism with MapReduce and Spark; benchmarking parallel performance and managing parallel jobs.",
+        ],
+        source: "https://courses.washington.edu/css534/syllabi/f26.html",
+      },
+      {
+        title: "Information Assurance and Cybersecurity",
+        topics: [
+          "Secure development lifecycle; identifying threats, vulnerabilities, and security risks.",
+          "Confidentiality, integrity, and availability; cryptology, privacy, and security governance.",
+        ],
+        source: "https://www.washington.edu/students/crscatb/css.html",
+      },
+    ],
   },
   {
     name: "RV University",
     logo: "/logos/rvu.png",
-    role: "B.Tech (Hons.), Computer Science",
+    role: "B.Tech (Hons.), Computer Science, Minor in Fintech",
     dates: "2022 – 2026",
-    highlights: ["Fintech minor", "Bangalore, India"],
+    highlights: ["Bangalore, India"],
     detail: "Bangalore, India. Minor in Fintech.",
   },
 ];
