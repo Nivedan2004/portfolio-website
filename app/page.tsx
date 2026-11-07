@@ -1,3 +1,4 @@
+import { RecognitionCard } from "@/components/recognition-card";
 import { AnimatedDetails } from "@/components/animated-details";
 import {
   Plus,
@@ -229,7 +230,7 @@ export default function Home() {
           <h2 id="recognition-title">Leadership & recognition</h2>
         </div>
         <div className="recognition-grid">
-          <article className="recognition-card">
+          <RecognitionCard title="E-Cell leadership" story="Led fundraising and sponsorship efforts for E-Cell at RV University and helped run two events, including Hack to a Hackathon. The event connected students with industry experts to explore real-world problems and develop ideas for the Smart India Hackathon.">
             <div className="recognition-card-top">
               <Users size={24} strokeWidth={1.5} aria-hidden="true" />
               <span>Leadership</span>
@@ -240,8 +241,8 @@ export default function Home() {
               <strong>E-Cell · RV University</strong>
               <span>Mar 2023 – Feb 2024</span>
             </div>
-          </article>
-          <article className="recognition-card recognition-award">
+          </RecognitionCard>
+          <RecognitionCard award title="IEEE CCEM proposal winner" story="Built an IoT-based smart dustbin that prevents the lid from opening when the bin is full and sends collection alerts to the owner and government officials. The system was designed to help prevent overflowing bins and support timely waste collection.">
             <div className="recognition-card-top">
               <Trophy size={24} strokeWidth={1.5} aria-hidden="true" />
               <span>Recognition · 2023</span>
@@ -251,7 +252,7 @@ export default function Home() {
             <div className="recognition-meta">
               <strong>IEEE CCEM 2023</strong>
             </div>
-          </article>
+          </RecognitionCard>
         </div>
       </section>
     </main>
