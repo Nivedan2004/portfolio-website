@@ -1,0 +1,203 @@
+import {
+  Plus,
+  Braces,
+  Database,
+  Cloud,
+  Sparkles,
+  BriefcaseBusiness,
+  GraduationCap,
+} from "lucide-react";
+import { experience, education, projects, skillGroups } from "@/lib/content";
+import { Portrait } from "@/components/portrait";
+import { VoiceWidget } from "@/components/voice-widget";
+function Entries({ items }: { items: typeof experience }) {
+  return (
+    <div className="entries">
+      {items.map((item) => (
+        <details className="entry" key={item.name}>
+          <summary>
+            <div
+              className={
+                "organization-logo logo-" +
+                item.name.split(" ")[0].toLowerCase()
+              }
+            >
+              <img src={item.logo} alt={item.name} width="120" height="48" />
+            </div>
+            <div className="entry-info">
+              <h3>{item.name}</h3>
+              <p>{item.role}</p>
+              <span className="entry-date">{item.dates}</span>
+            </div>
+            <div className="entry-highlights">
+              {item.highlights.map((highlight) => (
+                <span key={highlight}>{highlight}</span>
+              ))}
+            </div>
+            <span className="entry-action">
+              <span>Read the story</span>
+              <Plus className="expand-icon" size={16} />
+            </span>
+          </summary>
+          <div className="entry-detail">
+            {item.detail.length > 250 ? (
+              <ul>
+                {item.detail.split(/(?<=\.) /).map((sentence) => (
+                  <li key={sentence}>{sentence}</li>
+                ))}
+              </ul>
+            ) : (
+              <p>{item.detail}</p>
+            )}
+          </div>
+        </details>
+      ))}
+    </div>
+  );
+}
+export default function Home() {
+  return (
+    <main id="main" className="about-page">
+      <section className="hero" aria-labelledby="hero-title">
+        <div className="hero-copy">
+          <h1 id="hero-title">
+            I build.
+            <br />I question.
+            <br />I build better.
+          </h1>
+          <p className="hero-description">
+            I like building things and figuring out what
+            <br className="desktop-break" /> could go wrong before they ship.
+          </p>
+          <p className="eyebrow discipline">
+            Software engineering <span>×</span> Security
+          </p>
+          <VoiceWidget />
+        </div>
+        <Portrait />
+      </section>
+      <div className="credentials">
+        <section aria-labelledby="experience-title">
+          <div className="credential-heading">
+            <BriefcaseBusiness size={20} />
+            <h2 id="experience-title">Experience</h2>
+          </div>
+          <Entries items={experience} />
+        </section>
+        <section aria-labelledby="education-title">
+          <div className="credential-heading">
+            <GraduationCap size={22} />
+            <h2 id="education-title">Education</h2>
+          </div>
+          <Entries items={education} />
+        </section>
+      </div>
+      <section className="work" aria-labelledby="work-title">
+        <div className="section-heading">
+          <h2 id="work-title">Selected work</h2>
+          <span className="section-aside">A few things I’ve built</span>
+        </div>
+        {projects.map((project, index) => (
+          <details className="project" key={project.name} open={index === 0}>
+            <summary>
+              <span className="project-number">0{index + 1}</span>
+              <div className="project-heading">
+                <h3>{project.name}</h3>
+                <p>{project.label}</p>
+              </div>
+              <span className="project-category">
+                {
+                  [
+                    "Learning platform",
+                    "Data engineering",
+                    "Route intelligence",
+                  ][index]
+                }
+              </span>
+              <span className="project-toggle">
+                <Plus size={18} />
+              </span>
+            </summary>
+            <div className="project-detail">
+              <div className="project-story">
+                <h4 className="project-caption">The starting point</h4>
+                <p>{project.detail.split("\n\n")[0]}</p>
+              </div>
+              <div className="project-outcome">
+                {index === 0 && (
+                  <dl className="project-metrics">
+                    <div>
+                      <dt>6</dt>
+                      <dd>professors used it in class</dd>
+                    </div>
+                    <div>
+                      <dt>63+</dt>
+                      <dd>students prepared for a quiz</dd>
+                    </div>
+                  </dl>
+                )}
+                <h4 className="project-caption">
+                  {index === 0
+                    ? "Beyond the project report"
+                    : index === 1
+                      ? "What I learned"
+                      : "What we built"}
+                </h4>
+                <p>{project.detail.split("\n\n")[1]}</p>
+              </div>
+              <ul
+                className="project-stack"
+                aria-label={`${project.name} technologies`}
+              >
+                {project.stack.split(" · ").map((technology) => (
+                  <li key={technology}>{technology}</li>
+                ))}
+              </ul>
+            </div>
+          </details>
+        ))}
+      </section>
+      <section className="skills" aria-labelledby="skills-title">
+        <div className="toolkit-heading">
+          <h2 id="skills-title">Tools I work with</h2>
+        </div>
+        <div className="skills-grid">
+          {skillGroups.map((group, index) => {
+            const Icon = [Braces, Database, Cloud, Sparkles][index];
+            return (
+              <section
+                className="skill-group"
+                key={group.name}
+                aria-labelledby={`skill-group-${index}`}
+              >
+                <div className="skill-group-top">
+                  <Icon size={24} strokeWidth={1.4} />
+                  <span>0{index + 1}</span>
+                </div>
+                <h3 id={`skill-group-${index}`}>{group.name}</h3>
+                <ul className="skill-tags">
+                  {group.tools.split(", ").map((tool) => (
+                    <li key={tool}>{tool}</li>
+                  ))}
+                </ul>
+              </section>
+            );
+          })}
+        </div>
+        <details className="recognition">
+          <summary>
+            <span>Leadership & recognition</span>
+            <Plus size={18} className="expand-icon" />
+          </summary>
+          <div className="skills-expanded">
+            <p>
+              Vice President, Sponsorship & Fundraising, E-Cell RV University ·
+              Mar 2023 – Feb 2024
+            </p>
+            <p>IEEE CCEM 2023 Student Project Showcase Proposal Winner.</p>
+          </div>
+        </details>
+      </section>
+    </main>
+  );
+}

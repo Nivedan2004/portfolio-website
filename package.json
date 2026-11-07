@@ -1,0 +1,30 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --hostname localhost --port 3000",
+    "build": "next build",
+    "start": "next start --hostname 127.0.0.1",
+    "typecheck": "tsc --noEmit",
+    "test:e2e": "playwright test",
+    "calendar:connect": "node scripts/connect-google-calendar.mjs",
+    "test:booking": "playwright test tests/booking-slots.spec.ts --project=chromium"
+  },
+  "dependencies": {
+    "@elevenlabs/react": "^1.21.1",
+    "google-auth-library": "^10.9.1",
+    "lucide-react": "^0.468.0",
+    "next": "^16.4.5",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "sharp": "^0.35.5",
+    "typescript": "^5.9.0"
+  }
+}
