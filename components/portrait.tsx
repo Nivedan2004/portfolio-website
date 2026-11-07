@@ -3,9 +3,11 @@ import { useEffect, useRef } from "react";
 export function Portrait() {
   const head = useRef<HTMLImageElement>(null);
   useEffect(() => {
-    const media = matchMedia(
-      "(prefers-reduced-motion: reduce), (pointer: coarse)",
-    );
+    const media = matchMedia("(prefers-reduced-motion: reduce)");
+    const touch = matchMedia("(pointer: coarse)");
+    const portrait = head.current?.closest("figure");
+    let inView = false;
+    let lastTouch = -Infinity;
     let frame = 0,
       last = 0,
       targetX = 0,
@@ -13,19 +15,23 @@ export function Portrait() {
       x = 0,
       y = 0;
     const draw = (now: number) => {
+      if (touch.matches && now - lastTouch > 2200) {
+        targetX = Math.sin(now / 2400) * 0.55;
+        targetY = Math.sin(now / 3100 + 0.8) * 0.4;
+      }
       const dt = Math.min((now - last) / 1000 || 0.016, 0.05);
       last = now;
       const alpha = 1 - Math.exp(-dt * 9);
       x += (targetX - x) * alpha;
       y += (targetY - y) * alpha;
       if (head.current)
-        head.current.style.transform = `translate(${x * 4}px,${y * 3}px) rotate(${x * 5}deg)`;
-      if (Math.abs(targetX - x) + Math.abs(targetY - y) > 0.001)
+        head.current.style.transform = `perspective(700px) translate(${x * 9}px,${y * 6}px) rotateY(${x * 7}deg) rotateX(${-y * 4}deg) rotateZ(${x * 0.9}deg)`;
+      if ((touch.matches && inView) || Math.abs(targetX - x) + Math.abs(targetY - y) > 0.001)
         frame = requestAnimationFrame(draw);
       else frame = 0;
     };
     const wake = () => {
-      if (!frame && !document.hidden && !media.matches) {
+      if (!frame && inView && !document.hidden && !media.matches) {
         last = 0;
         frame = requestAnimationFrame(draw);
       }
@@ -36,7 +42,16 @@ export function Portrait() {
       wake();
     };
     const move = (event: PointerEvent) => {
-      if (media.matches || event.pointerType !== "mouse") return;
+      if (media.matches) return;
+      if (event.pointerType !== "mouse") {
+        const bounds = portrait?.getBoundingClientRect();
+        if (!bounds || event.clientY < bounds.top || event.clientY > bounds.bottom || event.clientX < bounds.left || event.clientX > bounds.right) return;
+        lastTouch = performance.now();
+        targetX = Math.max(-1, Math.min(1, ((event.clientX - bounds.left) / bounds.width - 0.5) * 2));
+        targetY = Math.max(-1, Math.min(1, ((event.clientY - bounds.top) / bounds.height - 0.5) * 2));
+        wake();
+        return;
+      }
       targetX = Math.max(
         -1,
         Math.min(1, (event.clientX / window.innerWidth - 0.5) * 2),
@@ -60,13 +75,25 @@ export function Portrait() {
       frame = 0;
       x = y = targetX = targetY = 0;
       if (head.current) head.current.style.transform = "none";
+      wake();
     };
+    const observer = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      if (inView) wake();
+      else { cancelAnimationFrame(frame); frame = 0; }
+    });
+    if (portrait) observer.observe(portrait);
+    window.addEventListener("pointerdown", move, { passive: true });
+    touch.addEventListener("change", preference);
     window.addEventListener("pointermove", move, { passive: true });
     document.documentElement.addEventListener("pointerleave", reset);
     window.addEventListener("blur", reset);
     document.addEventListener("visibilitychange", visibility);
     media.addEventListener("change", preference);
     return () => {
+      observer.disconnect();
+      touch.removeEventListener("change", preference);
+      window.removeEventListener("pointerdown", move);
       cancelAnimationFrame(frame);
       window.removeEventListener("pointermove", move);
       document.documentElement.removeEventListener("pointerleave", reset);

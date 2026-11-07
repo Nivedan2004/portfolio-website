@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowLeft,
@@ -6,7 +7,6 @@ import {
   Check,
   ChevronLeft,
   ChevronRight,
-  Globe2,
 } from "lucide-react";
 import { links } from "@/lib/content";
 type Slot = { start: string; end: string };
@@ -215,8 +215,11 @@ export function BookingCalendar() {
     >
       <div className="native-booking-heading">
         <h2 id="booking-title">Find a time.</h2>
-        {availability?.configured && <span>{availability.duration} min</span>}
-      </div>
+        </div>
+      <p className="calendar-event"><Image src="/logos/google-calendar.png" alt="" width={20} height={20} />
+        {availability?.duration || 60}-minute chat
+      </p>
+      
       {step === "confirmed" ? (
         <div className="booking-confirmation" role="status">
           <span className="confirmation-check">
@@ -333,7 +336,7 @@ export function BookingCalendar() {
             </div>
           </div>
           <div className="calendar-weekdays" aria-hidden="true">
-            {["S", "M", "T", "W", "T", "F", "S"].map((day, index) => (
+            {["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"].map((day, index) => (
               <span key={index}>{day}</span>
             ))}
           </div>
@@ -375,39 +378,6 @@ export function BookingCalendar() {
               );
             })}
           </div>
-          <div className="calendar-preferences">
-            <label className="calendar-timezone">
-              <Globe2 size={14} />
-              <span className="sr-only">Timezone</span>
-              <select
-                aria-label="Timezone"
-                value={timezone}
-                onChange={(event) => setTimezone(event.target.value)}
-              >
-                {zones.map((zone) => (
-                  <option key={zone} value={zone}>
-                    {zone.replaceAll("_", " ")}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <div className="clock-format" role="group" aria-label="Time format">
-              <button
-                type="button"
-                aria-pressed={hour12}
-                onClick={() => setHour12(true)}
-              >
-                12h
-              </button>
-              <button
-                type="button"
-                aria-pressed={!hour12}
-                onClick={() => setHour12(false)}
-              >
-                24h
-              </button>
-            </div>
-          </div>
           <div className="calendar-times" aria-busy={loading}>
             <h3>{selectedLabel}</h3>
             {loading ? (
@@ -440,6 +410,39 @@ export function BookingCalendar() {
                 ))}
               </div>
             )}
+          </div>
+          <div className="calendar-preferences">
+            <label className="calendar-timezone">
+              
+              <span className="sr-only">Timezone</span>
+              <select
+                aria-label="Timezone"
+                value={timezone}
+                onChange={(event) => setTimezone(event.target.value)}
+              >
+                {zones.map((zone) => (
+                  <option key={zone} value={zone}>
+                    {zone === "America/Los_Angeles" ? "Pacific Time" : zone.replaceAll("_", " ")}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <div className="clock-format" role="group" aria-label="Time format">
+              <button
+                type="button"
+                aria-pressed={hour12}
+                onClick={() => setHour12(true)}
+              >
+                12h
+              </button>
+              <button
+                type="button"
+                aria-pressed={!hour12}
+                onClick={() => setHour12(false)}
+              >
+                24h
+              </button>
+            </div>
           </div>
           {slot && (
             <button

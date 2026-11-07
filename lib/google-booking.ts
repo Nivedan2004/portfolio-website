@@ -343,8 +343,8 @@ export async function reserveMeeting(
         retry: false,
         data: {
           id: eventId,
-          summary: `Portfolio conversation with ${submission.name}`,
-          description: "Booked through the portfolio website.",
+          summary: "Catch up with Nivedan",
+          description: `Catch up with ${submission.name}.\nBooked through the portfolio website.`,
           start: { dateTime: slot.start, timeZone: config.timezone },
           end: { dateTime: slot.end, timeZone: config.timezone },
           attendees: [
