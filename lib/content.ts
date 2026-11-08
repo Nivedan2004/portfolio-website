@@ -38,7 +38,7 @@ export type ResumeEntry = {
 export const experience: ResumeEntry[] = [
   {
     name: "Lawgical",
-    logo: "/logos/lawgical.png",
+    logo: "/logos/lawgical-mark.png",
     role: "Software Development Engineer Intern",
     dates: "Jun 2025 – Aug 2026",
     highlights: ["San Francisco, CA"],

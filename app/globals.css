@@ -1609,8 +1609,8 @@ details[open] > summary .expand-icon {
 .credentials .logo-lawgical img {
   width: 44px;
   height: 44px;
-  object-fit: cover;
-  object-position: left center;
+  object-fit: contain;
+  object-position: center;
 }
 .credentials .entry-info {
   min-width: 0;
