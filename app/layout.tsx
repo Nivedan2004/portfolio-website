@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { Header } from "@/components/header";
 import { ScrollReveals } from "@/components/scroll-reveals";
 import { Footer } from "@/components/footer";
@@ -27,6 +28,7 @@ export default function RootLayout({
           <Footer />
           <ScrollReveals />
         </div>
+        <Analytics />
       </body>
     </html>
   );
