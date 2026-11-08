@@ -34,3 +34,5 @@ Prompt: “Remove ONLY the near-black background, producing a true transparent P
 - `public/logos/google-calendar.png`: official Google Calendar branding icon, https://www.gstatic.com/images/branding/product/1x/calendar_2020q4_48dp.png (heading icon requested by owner).
 
 - `public/logos/lawgical-mark.png`: complete square brand mark extracted losslessly from the first 128 × 128 pixels of the official Lawgical wordmark above, avoiding CSS cropping.
+
+- `public/images/avatar-transparent.png`: imagegen background extraction from `public/images/illustration.png`, November 8, 2026. Prompt: remove only the black backdrop, preserve man and Simba, all colors/pose, genuine PNG alpha, no borders or shadows. Header avatar for light and dark themes. Original output retained at `/Users/nivedan/.codex/generated_images/01a1b731-471a-7023-ade2-74b21c5b9cf6/exec-d9f068be-d6ea-4dee-9f3e-fd3edd6baff6.png`.

@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { ThemeToggle } from "./theme-toggle";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowUpRight } from "lucide-react";
@@ -9,7 +10,7 @@ export function Header() {
     <header className="site-header">
       <Link className="avatar" href="/" aria-label="About me — home">
         <Image
-          src="/images/illustration.png"
+          src="/images/avatar-transparent.png"
           alt="Illustration of me holding Simba"
           width={64}
           height={64}
@@ -41,6 +42,7 @@ export function Header() {
           View résumé <ArrowUpRight size={18} />
           <span className="sr-only"> (opens in a new tab)</span>
         </a>
+        <ThemeToggle />
       </nav>
     </header>
   );
