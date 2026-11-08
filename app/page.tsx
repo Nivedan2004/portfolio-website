@@ -51,7 +51,18 @@ function Entries({ items }: { items: ResumeEntry[] }) {
             </span>
           </summary>
           <div className="entry-detail">
-            {item.courses?.length ? (
+            {item.undergraduateSemesters?.length ? (
+              <div className="undergraduate-coursework">
+                <p>{item.detail}</p>
+                <h4 className="undergraduate-label">Undergraduate coursework & practical work</h4>
+                {item.undergraduateSemesters.map(semester => (
+                  <section className="undergraduate-semester" key={semester.title} aria-label={semester.title}>
+                    <h4>{semester.title}</h4>
+                    <ul>{semester.subjects.map(subject => <li key={subject}>{subject}</li>)}</ul>
+                  </section>
+                ))}
+              </div>
+            ) : item.courses?.length ? (
               <div className="entry-coursework">
                 <p>{item.detail}</p>
                 <h4 className="coursework-label">Current coursework</h4>
@@ -158,27 +169,35 @@ export default function Home() {
                 <Plus size={18} />
               </span>
             </summary>
-            <div className="project-detail">
+            <div className="project-detail project-case-study">
+              {index === 0 ? (
+                <div className="project-impact">
+                  <div className="project-impact-heading"><span>From a report to real classrooms</span><h4>Built to make<br />learning click.</h4></div>
+                  <dl className="project-metrics">
+                    <div><dt>6</dt><dd>professors used it in class</dd></div>
+                    <div><dt>63+</dt><dd>students used it for a quiz</dd></div>
+                  </dl>
+                </div>
+              ) : (
+                <div className="project-impact">
+                  <div className="project-impact-heading">
+                    <span>{index === 1 ? "From scattered records to clearer insights" : "From spoiled groceries to a better route"}</span>
+                    <h4>{index === 1 ? "Make the data make sense." : "Protect what’s being delivered."}</h4>
+                  </div>
+                  <dl className="project-focus-points">
+                    <div><dt>{index === 1 ? "Clean & standardize" : "Assess heat exposure"}</dt><dd>{index === 1 ? "Reconcile records and country names with PySpark." : "Combine heat-island data with temperature thresholds."}</dd></div>
+                    <div><dt>{index === 1 ? "Explore visually" : "Compare routes"}</dt><dd>{index === 1 ? "Turn cleaned data into interactive Plotly visualizations." : "Evaluate spoilage risk alongside delivery distance."}</dd></div>
+                  </dl>
+                </div>
+              )}
               <div className="project-story">
-                <h4 className="project-caption">The starting point</h4>
+                <h4 className="project-caption">{index === 0 ? "The problem I wanted to solve" : "The starting point"}</h4>
                 <p>{project.detail.split("\n\n")[0]}</p>
               </div>
               <div className="project-outcome">
-                {index === 0 && (
-                  <dl className="project-metrics">
-                    <div>
-                      <dt>6</dt>
-                      <dd>professors used it in class</dd>
-                    </div>
-                    <div>
-                      <dt>63+</dt>
-                      <dd>students prepared for a quiz</dd>
-                    </div>
-                  </dl>
-                )}
                 <h4 className="project-caption">
                   {index === 0
-                    ? "Beyond the project report"
+                    ? "What happened next"
                     : index === 1
                       ? "What I learned"
                       : "What we built"}

@@ -2433,3 +2433,38 @@ details[open] > summary .expand-icon {
 .recognition-flip-hint { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 24px; margin-top: auto; font-size: 11px; color: #b5b5a8; }
 .recognition-front .recognition-meta { margin-top: 29px; }
 @media (prefers-reduced-motion: reduce) { .recognition-flip-inner { transition: none; } }
+
+.undergraduate-label { margin: 26px 0 18px; color: #a9a99c; font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 1.4px; line-height: 1.6; }
+.undergraduate-semester { padding: 20px 0; border-top: 1px solid #30302b; }
+.undergraduate-semester h4 { color: #eeeede; font-family: "Space Grotesk", sans-serif; font-size: 16px; font-weight: 500; margin-bottom: 13px; }
+.entry-detail .undergraduate-semester ul { display: flex; flex-wrap: wrap; gap: 7px; padding: 0; list-style: none; }
+.entry-detail .undergraduate-semester li { margin: 0; padding: 5px 9px; border: 1px solid #35352e; border-radius: 5px; background: #191916; color: #c8c8bd; font-size: 12px; line-height: 1.5; }
+.entry-detail .undergraduate-semester li + li { margin-top: 0; }
+
+.project-case-study { gap: 20px; }
+.project-impact { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 30px; padding: 28px 30px; border: 1px solid #39382f; border-radius: 12px; background: radial-gradient(ellipse at top left, #29271d, #12120f 75%); }
+.project-impact-heading > span { display: block; color: #c1b895; font-size: 10px; text-transform: uppercase; letter-spacing: 1.3px; margin-bottom: 12px; }
+.project-impact-heading h4 { font-family: "Space Grotesk", sans-serif; font-size: clamp(25px, 3vw, 34px); font-weight: 500; line-height: 1.16; letter-spacing: -1px; color: #f3f2e9; }
+.project-impact .project-metrics { margin: 0; gap: 24px; }
+.project-impact .project-metrics dt { font-family: "Space Grotesk", sans-serif; font-size: 52px; color: #e7dab0; }
+.project-impact .project-metrics dd { color: #b4b1a3; max-width: 130px; font-size: 12px; }
+.project-case-study > .project-story, .project-case-study > .project-outcome { border: 1px solid #2c2c27; border-radius: 10px; padding: 24px; background: #10100e; }
+.project-case-study .project-caption { color: #aaa794; font-size: 10px; margin-bottom: 12px; }
+.project-case-study .project-stack { padding-top: 2px; }
+.project-case-study .project-stack li { font-size: 11px; color: #c8c8b9; padding: 4px 11px; }
+@media (max-width: 800px) {
+  .project-impact { gap: 20px; padding: 24px; }
+  .project-impact .project-metrics dt { font-size: 42px; }
+}
+@media (max-width: 600px) {
+  .project-detail.project-case-study { padding-left: 0; gap: 14px; }
+  .project-impact { grid-template-columns: 1fr; gap: 24px; padding: 22px; }
+  .project-impact-heading h4 br { display: none; }
+  .project-impact .project-metrics { gap: 20px; }
+  .project-case-study > .project-story, .project-case-study > .project-outcome { padding: 21px; }
+}
+
+.project-focus-points { display: grid; gap: 18px; margin: 0; }
+.project-focus-points > div { padding-left: 16px; border-left: 2px solid #756d4f; }
+.project-focus-points dt { font-family: "Space Grotesk", sans-serif; font-size: 18px; line-height: 1.3; color: #e7dab0; letter-spacing: -.3px; }
+.project-focus-points dd { margin: 5px 0 0; font-size: 13px; line-height: 1.6; color: #b4b1a3; }

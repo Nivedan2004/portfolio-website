@@ -33,6 +33,7 @@ export type ResumeEntry = {
   highlights: string[];
   detail: string;
   bullets?: string[];
+  undergraduateSemesters?: { title: string; subjects: string[] }[];
   courses?: { title: string; topics: string[]; source: string }[];
 };
 export const experience: ResumeEntry[] = [
@@ -99,16 +100,26 @@ export const education: ResumeEntry[] = [
     role: "B.Tech (Hons.), Computer Science, Minor in Fintech",
     dates: "2022 – 2026",
     highlights: ["Bangalore, India"],
-    detail: "Bangalore, India. Minor in Fintech.",
+    detail: "Undergraduate study spanning software engineering, systems, AI and data, cloud computing, and fintech, alongside internships, research, and project work.",
+    undergraduateSemesters: [
+      { title: "Semester 1", subjects: ["Fundamentals of Programming with C", "Digital Systems and Computer Architecture", "Data Analysis with Python", "Discrete Mathematics and Graph Theory", "Exploring Science", "Technical Communication", "Structured Innovation"] },
+      { title: "Semester 2", subjects: ["Data Structures and Algorithms", "Embedded Systems and Microcontrollers", "Full Stack Web Development", "Linear Algebra", "Engineering Explorations", "Community Service", "Entrepreneurial Mindset"] },
+      { title: "Semester 3", subjects: ["Introduction to Blockchain", "Introduction to Business", "Design and Analysis of Algorithms", "Agile Software Engineering", "Operating Systems and Systems Software", "Database Management Systems", "Probability and Statistics"] },
+      { title: "Semester 4", subjects: ["Advanced Blockchain", "Object Oriented Programming with Java", "Computer Networks", "Introduction to Machine Learning", "Special Topics", "Calculus for Computer Science", "Generative AI and Prompt Engineering"] },
+      { title: "Semester 5", subjects: ["Universal Human Values", "English Communication – I", "Summer Internship – I", "IoT and Edge Computing", "Introduction to Robotic Process Automation", "Fundamentals of Data Engineering", "Introduction to Full Stack Web Development", "Google Cloud Computing Foundations", "Big Data Computing", "Introduction to Fintech Product Development", "Theory of Computation", "Game Theory"] },
+      { title: "Semester 6", subjects: ["Yoga", "Constitution of India", "English Communication", "Computer Graphics", "Data Warehousing and Mining", "Recommender Systems", "Web Application Development", "Network Security", "Compiler Design", "Advanced Graph Theory", "Mini Project", "Essentials of Digital Marketing"] },
+      { title: "Semester 7", subjects: ["Summer Internship – II", "Accelerated Computing", "Image Processing", "Distributed Systems", "Mobile Application Development", "Software Defined Networks", "Advanced Google Cloud Platform", "Developing Soft Skills and Personality", "Research Methodology"] },
+      { title: "Semester 8", subjects: ["Technical Seminar", "Major Project"] },
+    ],
   },
 ];
 export const projects = [
   {
     name: "Learnify",
     label: "Less noise. Better learning.",
-    stack: "Next.js · Supabase · Tailwind",
+    stack: "Next.js · NeonDB · Tailwind",
     detail:
-      "I built Learnify because getting an answer isn’t the same as understanding a topic. When I used ChatGPT to study, I often ended up with more information than I needed and too few visuals to make things click. I wanted something more focused: clear explanations, visual learning material, and questions to check what I’d understood.\n\nSix professors at RV University used it to cover topics in class, and more than 63 students used it to prepare for a class quiz. Students told me it helped them earn better grades, and classmates later returned to it for exam preparation. What started as a project for my report became something people actually chose to study with.",
+      "When I used ChatGPT to study, the answers were often too long and short on visuals. I built Learnify to make topics click through focused explanations, visual learning material, and questions that check understanding.\n\nProfessors at RV University brought Learnify into their classes, and students used it to prepare for a quiz. They told me it helped them earn better grades; classmates later returned for exam preparation. What began as a project for my report became a tool people chose to study with.",
   },
   {
     name: "Japan Visa Data Analysis",
