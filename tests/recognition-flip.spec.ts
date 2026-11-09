@@ -1,20 +1,32 @@
-import { expect, test } from '@playwright/test';
-import { installBuiltApp } from './fixtures/built-app';
-test('recognition cards flip independently, toggle by keyboard, and reset when scrolling up', async ({ page }) => {
+import { expect, test } from "@playwright/test";
+import { installBuiltApp } from "./fixtures/built-app";
+test("recognition cards flip independently, toggle by keyboard, and reset when scrolling up", async ({
+  page,
+}) => {
   await installBuiltApp(page);
-  await page.goto('/');
-  const leadership = page.locator('.recognition-flip-trigger').nth(0);
-  const award = page.locator('.recognition-flip-trigger').nth(1);
+  await page.goto("/");
+  const leadership = page.locator(".recognition-flip-trigger").nth(0);
+  const award = page.locator(".recognition-flip-trigger").nth(1);
   await leadership.click();
-  await expect(leadership).toHaveAttribute('aria-pressed', 'true');
-  await expect(award).toHaveAttribute('aria-pressed', 'false');
-  await expect(page.locator('.recognition-back[aria-hidden="false"]')).toContainText('Smart India Hackathon');
-  await leadership.press('Enter');
-  await expect(leadership).toHaveAttribute('aria-pressed', 'false');
+  await expect(leadership).toHaveAttribute("aria-pressed", "true");
+  await expect(award).toHaveAttribute("aria-pressed", "false");
+  await expect(
+    page.locator('.recognition-back[aria-hidden="false"]'),
+  ).toContainText("Smart India Hackathon");
+  await leadership.press("Enter");
+  await expect(leadership).toHaveAttribute("aria-pressed", "false");
   await award.click();
-  await expect(page.locator('.recognition-back[aria-hidden="false"]')).toContainText('government officials');
-  await page.evaluate(() => window.scrollBy({ top: -100, behavior: 'instant' }));
-  await expect(award).toHaveAttribute('aria-pressed', 'false');
+  await expect(
+    page.locator('.recognition-back[aria-hidden="false"]'),
+  ).toContainText("government officials");
+  await page.evaluate(() =>
+    window.scrollBy({ top: -100, behavior: "instant" }),
+  );
+  await expect(award).toHaveAttribute("aria-pressed", "false");
   await page.setViewportSize({ width: 360, height: 800 });
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
 });

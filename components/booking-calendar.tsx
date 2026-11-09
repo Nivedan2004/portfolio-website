@@ -215,11 +215,12 @@ export function BookingCalendar() {
     >
       <div className="native-booking-heading">
         <h2 id="booking-title">Find a time.</h2>
-        </div>
-      <p className="calendar-event"><Image src="/logos/google-calendar.png" alt="" width={20} height={20} />
+      </div>
+      <p className="calendar-event">
+        <Image src="/logos/google-calendar.png" alt="" width={20} height={20} />
         {availability?.duration || 60}-minute chat
       </p>
-      
+
       {step === "confirmed" ? (
         <div className="booking-confirmation" role="status">
           <span className="confirmation-check">
@@ -336,9 +337,11 @@ export function BookingCalendar() {
             </div>
           </div>
           <div className="calendar-weekdays" aria-hidden="true">
-            {["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"].map((day, index) => (
-              <span key={index}>{day}</span>
-            ))}
+            {["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"].map(
+              (day, index) => (
+                <span key={index}>{day}</span>
+              ),
+            )}
           </div>
           <div
             className="calendar-days"
@@ -413,7 +416,6 @@ export function BookingCalendar() {
           </div>
           <div className="calendar-preferences">
             <label className="calendar-timezone">
-              
               <span className="sr-only">Timezone</span>
               <select
                 aria-label="Timezone"
@@ -422,7 +424,9 @@ export function BookingCalendar() {
               >
                 {zones.map((zone) => (
                   <option key={zone} value={zone}>
-                    {zone === "America/Los_Angeles" ? "Pacific Time" : zone.replaceAll("_", " ")}
+                    {zone === "America/Los_Angeles"
+                      ? "Pacific Time"
+                      : zone.replaceAll("_", " ")}
                   </option>
                 ))}
               </select>

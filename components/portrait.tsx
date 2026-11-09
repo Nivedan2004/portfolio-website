@@ -26,7 +26,10 @@ export function Portrait() {
       y += (targetY - y) * alpha;
       if (head.current)
         head.current.style.transform = `perspective(700px) translate(${x * 9}px,${y * 6}px) rotateY(${x * 7}deg) rotateX(${-y * 4}deg) rotateZ(${x * 0.9}deg)`;
-      if ((touch.matches && inView) || Math.abs(targetX - x) + Math.abs(targetY - y) > 0.001)
+      if (
+        (touch.matches && inView) ||
+        Math.abs(targetX - x) + Math.abs(targetY - y) > 0.001
+      )
         frame = requestAnimationFrame(draw);
       else frame = 0;
     };
@@ -45,10 +48,23 @@ export function Portrait() {
       if (media.matches) return;
       if (event.pointerType !== "mouse") {
         const bounds = portrait?.getBoundingClientRect();
-        if (!bounds || event.clientY < bounds.top || event.clientY > bounds.bottom || event.clientX < bounds.left || event.clientX > bounds.right) return;
+        if (
+          !bounds ||
+          event.clientY < bounds.top ||
+          event.clientY > bounds.bottom ||
+          event.clientX < bounds.left ||
+          event.clientX > bounds.right
+        )
+          return;
         lastTouch = performance.now();
-        targetX = Math.max(-1, Math.min(1, ((event.clientX - bounds.left) / bounds.width - 0.5) * 2));
-        targetY = Math.max(-1, Math.min(1, ((event.clientY - bounds.top) / bounds.height - 0.5) * 2));
+        targetX = Math.max(
+          -1,
+          Math.min(1, ((event.clientX - bounds.left) / bounds.width - 0.5) * 2),
+        );
+        targetY = Math.max(
+          -1,
+          Math.min(1, ((event.clientY - bounds.top) / bounds.height - 0.5) * 2),
+        );
         wake();
         return;
       }
@@ -80,7 +96,10 @@ export function Portrait() {
     const observer = new IntersectionObserver(([entry]) => {
       inView = entry.isIntersecting;
       if (inView) wake();
-      else { cancelAnimationFrame(frame); frame = 0; }
+      else {
+        cancelAnimationFrame(frame);
+        frame = 0;
+      }
     });
     if (portrait) observer.observe(portrait);
     window.addEventListener("pointerdown", move, { passive: true });
