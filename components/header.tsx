@@ -35,7 +35,7 @@ export function Header() {
         </Link>
         <a
           className="resume-link"
-          href="/resume.pdf"
+          href="/resume-public.pdf"
           target="_blank"
           rel="noopener noreferrer"
         >

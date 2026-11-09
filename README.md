@@ -46,3 +46,6 @@ npm run test:e2e
 ```
 
 Browser checks cover direct routes/reload, navigation/back, keyboard accordions, résumé and social destinations, missing voice configuration, native calendar availability and booking states, image loading, responsive overflow, and head movement/reduced motion in Chromium and WebKit. Isolated Chromium checks additionally verified denied microphone permission, retry, cancellation, and cleanup of a permission stream resolving after cancellation using mocked media responses. Live voice calls, provider interruptions, actual mute/playback, and booking confirmation require the owner’s real agent and schedule; these cannot be validated with missing configuration.
+
+
+The website links to `public/resume-public.pdf`, a phone-free public résumé. `public/resume.pdf` is also sanitized for existing direct links. Keep the full original in the Git-ignored `NIVEDAN B R_Resume copy.pdf` outside `public/`. Do not overwrite the public copies with the original. Changes take effect only after deployment; earlier downloads, Git history, and previous deployments may retain older copies.
