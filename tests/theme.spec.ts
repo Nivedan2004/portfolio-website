@@ -46,3 +46,33 @@ test("new visitors start in dark mode even with a light system preference", asyn
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
 });
+
+test("theme changes crossfade as a complete view in both directions", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await installBuiltApp(page);
+  await page.goto("/contact");
+  for (const mode of ["light", "dark"]) {
+    await page.getByRole("button", { name: `Switch to ${mode} mode` }).click();
+    await expect(page.locator("html")).toHaveAttribute("data-theme", mode);
+    const supports = await page.evaluate(() => typeof document.startViewTransition === "function");
+    if (supports) {
+      await expect.poll(() => page.evaluate(() => getComputedStyle(document.documentElement, "::view-transition-new(root)").animationDuration)).toBe("0.85s");
+      await expect(page.locator("html")).not.toHaveClass(/theme-crossfading/);
+    } else {
+      await expect(page.locator("html")).not.toHaveClass(/theme-changing/);
+    }
+  }
+});
+test("older browsers retain smooth fallback and rapid toggles save the final theme", async ({ page }) => {
+  await page.addInitScript(() => Object.defineProperty(document, "startViewTransition", { value: undefined, configurable: true }));
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await installBuiltApp(page); await page.goto("/");
+  const toggle = page.locator(".theme-toggle");
+  await toggle.click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect(page.locator("html")).toHaveClass(/theme-changing/);
+  await toggle.click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect.poll(() => page.evaluate(() => localStorage.getItem("portfolio-theme"))).toBe("dark");
+  await expect(page.locator("html")).not.toHaveClass(/theme-changing/);
+});

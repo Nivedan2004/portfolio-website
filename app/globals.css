@@ -2653,15 +2653,25 @@ details[open] > summary .expand-icon {
 .theme-moon { opacity: 1; transform: rotate(0) scale(1); }
 [data-theme="light"] .theme-sun { opacity: 1; transform: rotate(0) scale(1); }
 [data-theme="light"] .theme-moon { opacity: 0; transform: rotate(90deg) scale(.5); }
-/* Only animate theme changes, preserving the site's existing motion timing. */
-html.theme-changing, .theme-changing body, .theme-changing .site-shell,
-.theme-changing main, .theme-changing section, .theme-changing article,
-.theme-changing details, .theme-changing summary, .theme-changing button,
-.theme-changing a, .theme-changing p, .theme-changing h1, .theme-changing h2,
-.theme-changing h3, .theme-changing h4, .theme-changing span,
-.theme-changing div, .theme-changing li, .theme-changing dt, .theme-changing dd,
-.theme-changing input, .theme-changing select {
-  transition: background-color 400ms ease, color 400ms ease, border-color 400ms ease;
+/* One synchronized, compositor-driven blend for the entire theme. */
+html.theme-crossfading::view-transition-group(root) { animation-duration: 850ms; }
+html.theme-crossfading::view-transition-image-pair(root) { isolation: isolate; }
+html.theme-crossfading::view-transition-old(root) {
+  animation: none;
+  opacity: 1;
+  mix-blend-mode: normal;
+}
+html.theme-crossfading::view-transition-new(root) {
+  animation: theme-fade-in 850ms cubic-bezier(.4, 0, .2, 1) both;
+  mix-blend-mode: normal;
+}
+@keyframes theme-fade-in { from { opacity: 0; } to { opacity: 1; } }
+/* Color interpolation fallback for browsers without view transitions. */
+html.theme-changing, .theme-changing *, .theme-changing *::before, .theme-changing *::after {
+  transition: background-color 850ms cubic-bezier(.4,0,.2,1), color 850ms cubic-bezier(.4,0,.2,1), border-color 850ms cubic-bezier(.4,0,.2,1), box-shadow 850ms cubic-bezier(.4,0,.2,1), fill 850ms cubic-bezier(.4,0,.2,1), stroke 850ms cubic-bezier(.4,0,.2,1);
+}
+@media (prefers-reduced-motion: reduce) {
+  html::view-transition-old(root), html::view-transition-new(root) { animation: none !important; }
 }
 [data-theme="light"] .credentials .logo-university,
 [data-theme="light"] .credentials .logo-rv { background: #f0eee5; border-color: #dedbd0; }

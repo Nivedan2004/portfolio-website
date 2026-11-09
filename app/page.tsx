@@ -54,11 +54,21 @@ function Entries({ items }: { items: ResumeEntry[] }) {
             {item.undergraduateSemesters?.length ? (
               <div className="undergraduate-coursework">
                 <p>{item.detail}</p>
-                <h4 className="undergraduate-label">Undergraduate coursework & practical work</h4>
-                {item.undergraduateSemesters.map(semester => (
-                  <section className="undergraduate-semester" key={semester.title} aria-label={semester.title}>
+                <h4 className="undergraduate-label">
+                  Undergraduate coursework & practical work
+                </h4>
+                {item.undergraduateSemesters.map((semester) => (
+                  <section
+                    className="undergraduate-semester"
+                    key={semester.title}
+                    aria-label={semester.title}
+                  >
                     <h4>{semester.title}</h4>
-                    <ul>{semester.subjects.map(subject => <li key={subject}>{subject}</li>)}</ul>
+                    <ul>
+                      {semester.subjects.map((subject) => (
+                        <li key={subject}>{subject}</li>
+                      ))}
+                    </ul>
                   </section>
                 ))}
               </div>
@@ -172,26 +182,71 @@ export default function Home() {
             <div className="project-detail project-case-study">
               {index === 0 ? (
                 <div className="project-impact">
-                  <div className="project-impact-heading"><span>From a report to real classrooms</span><h4>Built to make<br />learning click.</h4></div>
+                  <div className="project-impact-heading">
+                    <span>From a report to real classrooms</span>
+                    <h4>
+                      Built to make
+                      <br />
+                      learning click.
+                    </h4>
+                  </div>
                   <dl className="project-metrics">
-                    <div><dt>6</dt><dd>professors used it in class</dd></div>
-                    <div><dt>63+</dt><dd>students used it for a quiz</dd></div>
+                    <div>
+                      <dt>6</dt>
+                      <dd>professors used it in class</dd>
+                    </div>
+                    <div>
+                      <dt>63+</dt>
+                      <dd>students used it for a quiz</dd>
+                    </div>
                   </dl>
                 </div>
               ) : (
                 <div className="project-impact">
                   <div className="project-impact-heading">
-                    <span>{index === 1 ? "From scattered records to clearer insights" : "From spoiled groceries to a better route"}</span>
-                    <h4>{index === 1 ? "Make the data make sense." : "Protect what’s being delivered."}</h4>
+                    <span>
+                      {index === 1
+                        ? "From scattered records to clearer insights"
+                        : "From spoiled groceries to a better route"}
+                    </span>
+                    <h4>
+                      {index === 1
+                        ? "Make the data make sense."
+                        : "Protect what’s being delivered."}
+                    </h4>
                   </div>
                   <dl className="project-focus-points">
-                    <div><dt>{index === 1 ? "Clean & standardize" : "Assess heat exposure"}</dt><dd>{index === 1 ? "Reconcile records and country names with PySpark." : "Combine heat-island data with temperature thresholds."}</dd></div>
-                    <div><dt>{index === 1 ? "Explore visually" : "Compare routes"}</dt><dd>{index === 1 ? "Turn cleaned data into interactive Plotly visualizations." : "Evaluate spoilage risk alongside delivery distance."}</dd></div>
+                    <div>
+                      <dt>
+                        {index === 1
+                          ? "Clean & standardize"
+                          : "Assess heat exposure"}
+                      </dt>
+                      <dd>
+                        {index === 1
+                          ? "Reconcile records and country names with PySpark."
+                          : "Combine heat-island data with temperature thresholds."}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>
+                        {index === 1 ? "Explore visually" : "Compare routes"}
+                      </dt>
+                      <dd>
+                        {index === 1
+                          ? "Turn cleaned data into interactive Plotly visualizations."
+                          : "Evaluate spoilage risk alongside delivery distance."}
+                      </dd>
+                    </div>
                   </dl>
                 </div>
               )}
               <div className="project-story">
-                <h4 className="project-caption">{index === 0 ? "The problem I wanted to solve" : "The starting point"}</h4>
+                <h4 className="project-caption">
+                  {index === 0
+                    ? "The problem I wanted to solve"
+                    : "The starting point"}
+                </h4>
                 <p>{project.detail.split("\n\n")[0]}</p>
               </div>
               <div className="project-outcome">
@@ -249,7 +304,10 @@ export default function Home() {
           <h2 id="recognition-title">Leadership & recognition</h2>
         </div>
         <div className="recognition-grid">
-          <RecognitionCard title="E-Cell leadership" story="Led fundraising and sponsorship efforts for E-Cell at RV University and helped run two events, including Hack to a Hackathon. The event connected students with industry experts to explore real-world problems and develop ideas for the Smart India Hackathon.">
+          <RecognitionCard
+            title="E-Cell leadership"
+            story="Led fundraising and sponsorship efforts for E-Cell at RV University and helped run two events, including Hack to a Hackathon. The event connected students with industry experts to explore real-world problems and develop ideas for the Smart India Hackathon."
+          >
             <div className="recognition-card-top">
               <Users size={24} strokeWidth={1.5} aria-hidden="true" />
               <span>Leadership</span>
@@ -261,7 +319,11 @@ export default function Home() {
               <span>Mar 2023 – Feb 2024</span>
             </div>
           </RecognitionCard>
-          <RecognitionCard award title="IEEE CCEM proposal winner" story="Built an IoT-based smart dustbin that prevents the lid from opening when the bin is full and sends collection alerts to the owner and government officials. The system was designed to help prevent overflowing bins and support timely waste collection.">
+          <RecognitionCard
+            award
+            title="IEEE CCEM proposal winner"
+            story="Built an IoT-based smart dustbin that prevents the lid from opening when the bin is full and sends collection alerts to the owner and government officials. The system was designed to help prevent overflowing bins and support timely waste collection."
+          >
             <div className="recognition-card-top">
               <Trophy size={24} strokeWidth={1.5} aria-hidden="true" />
               <span>Recognition · 2023</span>
