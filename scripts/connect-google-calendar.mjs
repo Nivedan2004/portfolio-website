@@ -1,4 +1,5 @@
 import { createServer } from 'node:http';
+import { spawn } from 'node:child_process';
 import { randomBytes, timingSafeEqual } from 'node:crypto';
 import { readFile, writeFile } from 'node:fs/promises';
 import nextEnv from '@next/env';
@@ -30,6 +31,12 @@ const server=createServer(async(request,response)=>{
     clearTimeout(timeout);server.close();
   }catch(error){response.writeHead(500).end('Authorization could not be completed. Check your Google OAuth app settings and restart the connection command.');console.error('Google authorization failed. No credentials were saved.');}
 });
-const timeout=setTimeout(()=>{console.error('Calendar connection timed out. Run the command again to retry.');server.close();},5*60*1000);
-server.listen(3344,'localhost',()=>{console.log('Open this Google consent URL in your browser:\n'+url+'\nWaiting for the local callback.');});
+const timeout=setTimeout(()=>{console.error('Calendar connection timed out. Run the command again to retry.');server.close();},20*60*1000);
+server.listen(3344,'localhost',()=>{
+  console.log('Open this Google consent URL in your browser:\n'+url+'\nWaiting for the local callback (20 minutes). Keep this command running until Google returns.');
+  if(process.argv.includes('--open') && process.platform==='darwin') {
+    const browser=spawn('open',[url],{stdio:'ignore'});
+    browser.on('error',()=>console.error('Could not open the browser automatically. Use the consent link above.'));
+  }
+});
 server.on('error',error=>{clearTimeout(timeout);console.error('Could not start the local calendar callback server:',error.message);process.exitCode=1;});

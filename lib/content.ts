@@ -136,3 +136,17 @@ export const projects = [
       "The idea started with spoiled groceries. My friends and I had ordered food that arrived in poor condition, and it made us question what happened between dispatch and delivery. Conversations with people in healthcare brought up a more serious version of the same problem: temperature-sensitive vaccines going to waste.\n\nWe built ColdChain IQ to explore how delivery routes could account for heat exposure alongside distance. Using heat-island data, route information, and temperature thresholds, it assesses where spoilage risk could rise along a journey. Our goal was to help delivery teams choose routes that better protect what they’re carrying.",
   },
 ];
+
+
+// Owner-supplied LinkedIn recommendation screenshot, received November 19, 2026.
+export const managerRecommendation = {
+  name: "JJ Vélez",
+  relationship: "Former manager · Managed me directly",
+  date: "2026-11-18",
+  paragraphs: [
+    "I had the pleasure of managing Nivedan for a little over a year, and he was fantastic to work with.",
+    "Even though we worked remotely, Nivedan was always present, available, and responsive. He was willing to take on any task, approached his work with a strong sense of responsibility, and was able to drive features from beginning to end. I saw him grow a great deal throughout our time working together.",
+    "Beyond his skills and work ethic, Nivedan is a genuinely kind person who made working together a pleasure. He left our company to begin a master’s degree program, and I would be happy to work with him again in the future.",
+    "I wholeheartedly recommend Nivedan to any team looking for a reliable, capable, and thoughtful colleague.",
+  ],
+};

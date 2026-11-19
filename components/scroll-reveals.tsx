@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 const targets =
-  ".credential-heading, .entries > .entry, .work > .section-heading, .work > .project, .toolkit-heading, .skills-grid > .skill-group, .recognition, .site-footer, .contact-intro > *, .contact-page > .booking-panel";
+  ".credential-heading, .entries > .entry, .work > .section-heading, .work > .project, .toolkit-heading, .skills-grid > .skill-group, .recognition, .recommendation, .site-footer, .contact-intro > *, .contact-page > .booking-panel";
 /** Progressive enhancement: content remains visible without JavaScript or with reduced motion. */
 export function ScrollReveals() {
   const pathname = usePathname();

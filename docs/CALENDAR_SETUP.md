@@ -48,3 +48,25 @@ Set `BOOKING_SITE_ORIGIN` to your exact public origin (e.g. `https://yourdomain.
 `npm run test:booking` checks schedule exclusions, DST behavior, busy-event overlaps, and month boundaries. `npm run test:e2e` covers the native interface using mocked server responses, including slot selection, the details form, confirmed booking, and slot conflicts. Mocked tests do not verify live Google access, email delivery, or real reservations.
 
 Sources: [Google free/busy](https://developers.google.com/workspace/calendar/api/v3/reference/freebusy/query), [event insertion](https://developers.google.com/workspace/calendar/api/v3/reference/events/insert), [OAuth web flow](https://developers.google.com/identity/protocols/oauth2/web-server), [official Node auth library](https://github.com/googleapis/google-auth-library-nodejs), [Redis REST commands](https://upstash.com/docs/redis/features/restapi).
+
+
+## Diagnose failures in Vercel
+
+Both booking routes now emit JSON server logs with `service: "booking"`, a generated `requestId`, `operation`, `event`, status and elapsed milliseconds. Find them under your Vercel project's Logs, filter to `/api/booking/availability` or `/api/booking`, and search for `stage.failed` or the request ID from the response's `X-Booking-Request-Id` header. No logging toggle is required.
+
+Stages identify rate limiting, Redis commands, Google free/busy (including automatic OAuth refresh), event recovery, event creation, and reservation processing. `availability.calculated` reports counts only. Missing configuration reports variable **names**, not their values. Request bodies, visitor names/emails/IPs, selected meeting times, busy periods, calendar IDs, Redis keys/arguments, tokens, headers, raw provider responses and stack traces are deliberately omitted.
+
+Common failures:
+
+- `providerCode: "invalid_grant"` at `google.freebusy`: Google rejected the refresh token as expired or revoked. Check Google Auth Platform → Audience: an External app in Testing generally receives seven-day refresh tokens for these Calendar scopes. If applicable, move the consent app to In production (complete any Google requirements), then run `npm run calendar:connect` locally to grant consent again. Update `GOOGLE_REFRESH_TOKEN` in Vercel Production and redeploy. Restart local Next.js after reconnecting. The command is a one-time authorization helper, not a service to keep running.
+- `providerCode: "invalid_client"`: check the ID, secret and token are from the same OAuth client.
+- `redis.rejected` with upstream 401/403: check Redis token, URL and database access.
+- `google.calendar_inaccessible`: check the calendar ID and the account's permission to read it.
+- `config.missing` or `config.invalid`: repair the indicated environment settings and redeploy.
+- `validation.rejected` / `origin_mismatch`: the public origin must match `BOOKING_SITE_ORIGIN` exactly, without a trailing slash.
+
+On November 18, 2026, a read-only local check returned Redis PONG, while Google's OAuth token endpoint returned HTTP 400 / `invalid_grant` / “Token has been expired or revoked.” The owner confirmed the OAuth app is already In production. Reauthorizing saved a replacement refresh token to ignored `.env.local`, after which the real availability route returned HTTP 200 / configured true / 270 November slots. The root cause was an invalidated Google refresh token; the exact reason Google invalidated it is unknown. Vercel still needs the replacement `GOOGLE_REFRESH_TOKEN` and a redeploy. No meetings were created by this diagnosis.
+
+Reference: https://developers.google.com/identity/protocols/oauth2#expiration
+
+The reconnect helper now waits 20 minutes instead of five. `npm run calendar:connect -- --open` also opens the fresh consent page automatically on macOS. Keep the command running until the browser returns successfully; every invocation generates a new state/PKCE pair, so old links cannot be reused.

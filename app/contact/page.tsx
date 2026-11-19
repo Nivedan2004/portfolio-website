@@ -38,7 +38,6 @@ export default function Contact() {
             <ArrowUpRight />
           </a>
         </div>
-        <p className="inbox-note">Prefer email? My inbox is open.</p>
       </section>
       <BookingCalendar />
     </main>

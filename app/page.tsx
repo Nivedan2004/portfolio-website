@@ -10,12 +10,16 @@ import {
   GraduationCap,
   Trophy,
   Users,
+  Linkedin,
+  ArrowUpRight,
 } from "lucide-react";
 import {
   experience,
   education,
   projects,
   skillGroups,
+  managerRecommendation,
+  links,
   type ResumeEntry,
 } from "@/lib/content";
 import { Portrait } from "@/components/portrait";
@@ -153,6 +157,31 @@ export default function Home() {
           <Entries items={education} />
         </section>
       </div>
+      <section className="recommendation" aria-labelledby="recommendation-title">
+        <div className="section-heading">
+          <h2 id="recommendation-title">From my former manager</h2>
+        </div>
+        <a
+          className="recommendation-card linkedin-recommendation"
+          href={`${links.linkedin}details/recommendations/`}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Read JJ Vélez’s recommendation on my LinkedIn profile (opens in a new tab)"
+        >
+          <div className="linkedin-post-header">
+            <img className="linkedin-author-photo" src="/images/jj.jpeg" alt="JJ Vélez" width="56" height="56" loading="lazy" />
+            <div className="linkedin-author-info">
+              <h3>{managerRecommendation.name}</h3>
+              <p>CTO, Lawgical · ex-Apple</p>
+            </div>
+            <span className="linkedin-brand" aria-label="LinkedIn"><Linkedin size={21} strokeWidth={2} aria-hidden="true" /></span>
+          </div>
+          <blockquote className="linkedin-post-body">
+            {managerRecommendation.paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
+          </blockquote>
+          <div className="linkedin-post-footer"><span>View recommendation on LinkedIn</span><ArrowUpRight size={18} aria-hidden="true" /></div>
+        </a>
+      </section>
       <section className="work" aria-labelledby="work-title">
         <div className="section-heading">
           <h2 id="work-title">Selected work</h2>

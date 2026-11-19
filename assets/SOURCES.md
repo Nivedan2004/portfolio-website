@@ -36,3 +36,5 @@ Prompt: “Remove ONLY the near-black background, producing a true transparent P
 - `public/logos/lawgical-mark.png`: complete square brand mark extracted losslessly from the first 128 × 128 pixels of the official Lawgical wordmark above, avoiding CSS cropping.
 
 - `public/images/avatar-transparent.png`: imagegen background extraction from `public/images/illustration.png`, November 8, 2026. Prompt: remove only the black backdrop, preserve man and Simba, all colors/pose, genuine PNG alpha, no borders or shadows. Header avatar for light and dark themes. Original output retained at `/Users/nivedan/.codex/generated_images/01a1b731-471a-7023-ade2-74b21c5b9cf6/exec-d9f068be-d6ea-4dee-9f3e-fd3edd6baff6.png`.
+
+- `public/images/jj-velez.jpg`: public JJ Vélez team portrait, https://www.nextlevellawyer.com/ak-raja.jpeg , retrieved November 19, 2026. The public team page https://www.nextlevellawyer.com identifies this asset with alt text “JJ Velez” and his author section despite its misleading filename. Kept the original JPEG unchanged; displayed as the author photo on the owner-requested LinkedIn recommendation card.

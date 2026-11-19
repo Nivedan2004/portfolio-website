@@ -1,4 +1,5 @@
 import "server-only";
+import { bookingLog, bookingStage, safeBookingError } from "./booking-log";
 import { bookingSettings } from "./booking-settings";
 import { OAuth2Client } from "google-auth-library";
 import { createHash, randomUUID } from "node:crypto";
@@ -37,17 +38,17 @@ type Config = {
 const hash = (value: string) =>
   createHash("sha256").update(value).digest("hex");
 export function bookingConfig(): Config | null {
-  if (process.env.BOOKING_ENABLED !== "true") return null;
-  const env = process.env;
-  if (
-    !env.GOOGLE_CLIENT_ID ||
-    !env.GOOGLE_CLIENT_SECRET ||
-    !env.GOOGLE_REFRESH_TOKEN ||
-    !env.GOOGLE_CALENDAR_ID ||
-    !env.BOOKING_REDIS_REST_URL ||
-    !env.BOOKING_REDIS_REST_TOKEN
-  )
+  if (process.env.BOOKING_ENABLED !== "true") {
+    bookingLog("warn", "config.disabled", { hint: "Set BOOKING_ENABLED=true in the deployment environment and redeploy." });
     return null;
+  }
+  const env = process.env;
+  const required = ["GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET", "GOOGLE_REFRESH_TOKEN", "GOOGLE_CALENDAR_ID", "BOOKING_REDIS_REST_URL", "BOOKING_REDIS_REST_TOKEN"] as const;
+  const missing = required.filter(key => !env[key]?.trim());
+  if (missing.length) {
+    bookingLog("warn", "config.missing", { missing, hint: "Add these environment variables to Production and redeploy. Values are intentionally not logged." });
+    return null;
+  }
   try {
     const duration = Number(
         env.BOOKING_DURATION_MINUTES || bookingSettings.duration,
@@ -72,14 +73,16 @@ export function bookingConfig(): Config | null {
       !Number.isFinite(buffer) ||
       buffer < 0 ||
       buffer > 120 ||
-      new URL(env.BOOKING_REDIS_REST_URL).protocol !== "https:"
-    )
+      new URL(env.BOOKING_REDIS_REST_URL!).protocol !== "https:"
+    ) {
+      bookingLog("warn", "config.invalid", { hint: "Check BOOKING_TIMEZONE, BOOKING_DURATION_MINUTES, BOOKING_NOTICE_HOURS, BOOKING_HORIZON_DAYS, BOOKING_BUFFER_MINUTES and the HTTPS Redis REST URL." });
       return null;
+    }
     return {
-      clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET,
-      refreshToken: env.GOOGLE_REFRESH_TOKEN,
-      calendarId: env.GOOGLE_CALENDAR_ID,
+      clientId: env.GOOGLE_CLIENT_ID!,
+      clientSecret: env.GOOGLE_CLIENT_SECRET!,
+      refreshToken: env.GOOGLE_REFRESH_TOKEN!,
+      calendarId: env.GOOGLE_CALENDAR_ID!,
       timezone,
       hours: parseHours(
         env.BOOKING_WEEKLY_HOURS || JSON.stringify(bookingSettings.hours),
@@ -88,10 +91,11 @@ export function bookingConfig(): Config | null {
       noticeHours,
       horizonDays,
       buffer,
-      redisUrl: env.BOOKING_REDIS_REST_URL,
-      redisToken: env.BOOKING_REDIS_REST_TOKEN,
+      redisUrl: env.BOOKING_REDIS_REST_URL!,
+      redisToken: env.BOOKING_REDIS_REST_TOKEN!,
     };
   } catch {
+    bookingLog("warn", "config.invalid", { hint: "Check BOOKING_WEEKLY_HOURS JSON, booking timezone, and the HTTPS Redis REST URL." });
     return null;
   }
 }
@@ -99,25 +103,32 @@ async function redis<T>(
   config: Config,
   command: (string | number)[],
 ): Promise<T> {
-  const response = await fetch(config.redisUrl, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${config.redisToken}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(command),
-    cache: "no-store",
-    signal: AbortSignal.timeout(8000),
-  });
-  if (!response.ok)
-    throw new BookingError(
-      503,
-      "Booking is temporarily unavailable. Please try again later.",
-    );
-  const data = await response.json();
-  if (data.error)
-    throw new BookingError(503, "Booking is temporarily unavailable.");
-  return data.result as T;
+  const commandName = ["EVAL", "MGET", "GET", "SET", "DEL"].includes(String(command[0])) ? String(command[0]) : "OTHER";
+  return bookingStage("redis.command", async () => {
+    const response = await fetch(config.redisUrl, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${config.redisToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(command),
+      cache: "no-store",
+      signal: AbortSignal.timeout(8000),
+    });
+    if (!response.ok) {
+      bookingLog("error", "redis.rejected", { upstreamStatus: response.status, hint: response.status === 401 || response.status === 403 ? "Check BOOKING_REDIS_REST_TOKEN and database access." : "Check Redis database health and limits." });
+      throw new BookingError(
+        503,
+        "Booking is temporarily unavailable. Please try again later.",
+      );
+    }
+    const data = await response.json();
+    if (data.error) {
+      bookingLog("error", "redis.command_rejected", { hint: "Check Redis command permissions, database health and limits. Provider text is omitted to avoid exposing command arguments." });
+      throw new BookingError(503, "Booking is temporarily unavailable.");
+    }
+    return data.result as T;
+  }, { command: commandName });
 }
 export async function limitBookingRequests(
   config: Config,
@@ -154,7 +165,7 @@ async function busyPeriods(
   to: number,
 ): Promise<BusyPeriod[]> {
   const client = auth(config);
-  const response = await client.request<{
+  const response = await bookingStage("google.freebusy", () => client.request<{
     calendars: Record<string, { busy?: BusyPeriod[]; errors?: unknown[] }>;
   }>({
     url: "https://www.googleapis.com/calendar/v3/freeBusy",
@@ -165,14 +176,16 @@ async function busyPeriods(
       timeMax: new Date(to).toISOString(),
       items: [{ id: config.calendarId }],
     },
-  });
+  }));
   const calendar = response.data.calendars?.[config.calendarId];
   // Fail closed: inaccessible calendars must never be interpreted as empty calendars.
-  if (!calendar || calendar.errors?.length || !Array.isArray(calendar.busy))
+  if (!calendar || calendar.errors?.length || !Array.isArray(calendar.busy)) {
+    bookingLog("error", "google.calendar_inaccessible", { hint: "Check GOOGLE_CALENDAR_ID and the authorized account's free/busy permissions." });
     throw new BookingError(
       503,
       "Live availability could not be checked. Please try again later.",
     );
+  }
   return calendar.busy;
 }
 function candidates(config: Config, from: number, to: number) {
@@ -216,10 +229,12 @@ export async function liveAvailability(
     month: "2-digit",
     day: "2-digit",
   });
-  return free.filter(
+  const available = free.filter(
     (slot, index) =>
       !reserved[index] && format.format(new Date(slot.start)).startsWith(month),
   );
+  bookingLog("info", "availability.calculated", { candidateCount: possible.length, freeCount: free.length, availableCount: available.length });
+  return available;
 }
 type Submission = {
   start: string;
@@ -286,13 +301,13 @@ export async function reserveMeeting(
         };
       // Recover a prior request whose response was interrupted, without creating another event.
       try {
-        const existing = await client.request<{
+        const existing = await bookingStage("google.event_recovery", () => client.request<{
           status: string;
           extendedProperties?: { private?: { requestId?: string } };
         }>({
           url: `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(config.calendarId)}/events/${eventId}`,
           timeout: 10000,
-        });
+        }));
         if (
           existing.data.status === "confirmed" &&
           existing.data.extendedProperties?.private?.requestId ===
@@ -307,7 +322,7 @@ export async function reserveMeeting(
           ]);
           return { status: "confirmed", start: slot.start, end: slot.end };
         }
-      } catch {}
+      } catch (error) { bookingLog("warn", "booking.recovery_failed", safeBookingError(error)); }
       throw new BookingError(
         503,
         "We could not verify the previous booking attempt. Please email me before submitting again.",
@@ -335,7 +350,7 @@ export async function reserveMeeting(
     };
     await redis(config, ["SET", key, JSON.stringify(reservation), "EX", ttl]);
     try {
-      const result = await client.request<{ id: string; status: string }>({
+      const result = await bookingStage("google.event_create", () => client.request<{ id: string; status: string }>({
         url: `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(config.calendarId)}/events`,
         method: "POST",
         params: { sendUpdates: "all" },
@@ -356,7 +371,7 @@ export async function reserveMeeting(
           extendedProperties: { private: { requestId: submission.requestId } },
           transparency: "opaque",
         },
-      });
+      }));
       if (result.data.status !== "confirmed" || !result.data.id)
         throw new Error("Unconfirmed event");
       await redis(config, [
@@ -391,10 +406,11 @@ export async function reserveMeeting(
       1,
       lock,
       token,
-    ]).catch(() => {});
+    ]).catch(() => { bookingLog("warn", "booking.lock_release_failed", { hint: "The lock will expire automatically after 90 seconds." }); });
   }
 }
 export function bookingResponse(error: unknown) {
+  bookingLog(error instanceof BookingError && error.status < 500 ? "warn" : "error", "booking.failed", { status: error instanceof BookingError ? error.status : 503, ...safeBookingError(error) });
   if (error instanceof BookingError)
     return Response.json(
       { message: error.message },

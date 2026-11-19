@@ -1,3 +1,4 @@
+import { bookingLog, bookingStage, withBookingLogging } from "@/lib/booking-log";
 import {
   bookingConfig,
   bookingResponse,
@@ -7,13 +8,18 @@ import {
 import { validTimezone } from "@/lib/booking-slots";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-export async function POST(request: Request) {
+export function POST(request: Request) {
+  return withBookingLogging(request, "reserve", () => handle(request));
+}
+async function handle(request: Request) {
   const origin = process.env.BOOKING_SITE_ORIGIN || new URL(request.url).origin;
-  if (request.headers.get("origin") !== origin)
+  if (request.headers.get("origin") !== origin) {
+    bookingLog("warn", "validation.rejected", { reason: "origin_mismatch", hint: "Set BOOKING_SITE_ORIGIN to the exact public origin without a trailing slash." });
     return Response.json(
       { message: "Please book directly through this website." },
       { status: 403 },
     );
+  }
   const config = bookingConfig();
   if (!config)
     return Response.json(
@@ -24,7 +30,7 @@ export async function POST(request: Request) {
       { status: 503 },
     );
   try {
-    await limitBookingRequests(config, request, "book");
+    await bookingStage("rate_limit", () => limitBookingRequests(config, request, "book"));
     if (
       !request.headers.get("content-type")?.includes("application/json") ||
       Number(request.headers.get("content-length") || 0) > 4096
@@ -80,13 +86,13 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     return Response.json(
-      await reserveMeeting(config, {
+      await bookingStage("reservation", () => reserveMeeting(config, {
         name: name.trim(),
         email: email.trim(),
         start,
         timezone,
         requestId,
-      }),
+      })),
       { headers: { "Cache-Control": "no-store" } },
     );
   } catch (error) {
