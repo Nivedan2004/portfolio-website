@@ -2443,6 +2443,15 @@ details[open] > summary .expand-icon {
 .project-case-study > .project-story, .project-case-study > .project-outcome { border: 1px solid var(--palette-2c2c27, #2c2c27); border-radius: 10px; padding: 24px; background: var(--palette-10100e, #10100e); }
 .project-case-study .project-caption { color: var(--palette-aaa794, #aaa794); font-size: 10px; margin-bottom: 12px; }
 .project-case-study .project-stack { padding-top: 2px; }
+.project-repository {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  gap: 6px;
+  font-size: 14px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 .project-case-study .project-stack li { font-size: 11px; color: var(--palette-c8c8b9, #c8c8b9); padding: 4px 11px; }
 @media (max-width: 800px) {
   .project-impact { gap: 20px; padding: 24px; }

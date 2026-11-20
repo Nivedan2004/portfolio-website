@@ -295,6 +295,15 @@ export default function Home() {
                   <li key={technology}>{technology}</li>
                 ))}
               </ul>
+              <a
+                className="project-repository"
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`View ${project.name} on GitHub`}
+              >
+                View on GitHub <ArrowUpRight size={16} aria-hidden="true" />
+              </a>
             </div>
           </AnimatedDetails>
         ))}

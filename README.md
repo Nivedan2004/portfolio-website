@@ -29,7 +29,7 @@ See [docs/CALENDAR_SETUP.md](docs/CALENDAR_SETUP.md) for the one-time connection
 ## Content and artwork
 
 - Edit résumé-backed copy and social URLs in `lib/content.ts`.
-- `public/resume.pdf` is an unchanged copy of the supplied résumé.
+- The header links to `public/resume-public.pdf`. The same phone-free PDF is available at `public/resume.pdf` for existing links.
 - Agent instructions and factual knowledge live separately under `content/`, for owner review before uploading.
 - `public/images/portrait-base-transparent.png` and `simba-head.png` are the optimized separate layers. `assets/source/` preserves imagegen output. The supplied illustration is preserved at the repository root; only Simba’s head transforms.
 - Pointer movement is bounded to ±5° rotation, ±4px horizontal and ±3px vertical translation. Touch and reduced-motion users see a neutral pose. Motion listeners and frames are cleaned up; hidden tabs pause work.
@@ -46,6 +46,3 @@ npm run test:e2e
 ```
 
 Browser checks cover direct routes/reload, navigation/back, keyboard accordions, résumé and social destinations, missing voice configuration, native calendar availability and booking states, image loading, responsive overflow, and head movement/reduced motion in Chromium and WebKit. Isolated Chromium checks additionally verified denied microphone permission, retry, cancellation, and cleanup of a permission stream resolving after cancellation using mocked media responses. Live voice calls, provider interruptions, actual mute/playback, and booking confirmation require the owner’s real agent and schedule; these cannot be validated with missing configuration.
-
-
-The website links to `public/resume-public.pdf`, a phone-free public résumé. `public/resume.pdf` is also sanitized for existing direct links. Keep the full original in the Git-ignored `NIVEDAN B R_Resume copy.pdf` outside `public/`. Do not overwrite the public copies with the original. Changes take effect only after deployment; earlier downloads, Git history, and previous deployments may retain older copies.

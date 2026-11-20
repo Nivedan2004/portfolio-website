@@ -1,6 +1,6 @@
 # Asset provenance
 
-Original illustration and approved About/Contact mockups supplied by owner in the repository root. Résumé supplied as `NIVEDAN B R_Resume copy.pdf`; copied unchanged to `public/resume.pdf`.
+Original illustration and approved About/Contact mockups supplied by owner in the repository root. The owner supplied `Nivedan Ravisha.pdf` for the current résumé. Both public copies omit the phone number.
 
 Official logos retrieved November 7, 2026 and visually inspected:
 

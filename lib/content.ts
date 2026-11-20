@@ -116,6 +116,7 @@ export const education: ResumeEntry[] = [
 export const projects = [
   {
     name: "Learnify",
+    githubUrl: "https://github.com/Nivedan2004/Learnify",
     label: "Less noise. Better learning.",
     stack: "Next.js · NeonDB · Tailwind",
     detail:
@@ -123,6 +124,7 @@ export const projects = [
   },
   {
     name: "Japan Visa Data Analysis",
+    githubUrl: "https://github.com/Nivedan2004/Japan-Data-Analysis",
     label: "Making messy data useful.",
     stack: "PySpark · Plotly · Python",
     detail:
@@ -130,6 +132,7 @@ export const projects = [
   },
   {
     name: "ColdChain IQ",
+    githubUrl: "https://github.com/advik-holalu/ColdChainIQ",
     label: "The route matters as much as the destination.",
     stack: "Python · GeoPandas · Streamlit",
     detail:
