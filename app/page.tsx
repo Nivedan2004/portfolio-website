@@ -184,8 +184,7 @@ export default function Home() {
       </section>
       <section className="work" aria-labelledby="work-title">
         <div className="section-heading">
-          <h2 id="work-title">Selected work</h2>
-          <span className="section-aside">A few things I’ve built</span>
+          <h2 id="work-title">A few things I’ve built</h2>
         </div>
         {projects.map((project, index) => (
           <AnimatedDetails className="project" key={project.name}>

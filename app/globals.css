@@ -466,11 +466,6 @@ details[open] > summary .expand-icon {
   align-items: baseline;
   margin-bottom: 13px;
 }
-.section-aside {
-  font-size: 11px;
-  color: var(--palette-858580, #858580);
-  letter-spacing: 0.3px;
-}
 /* Projects read as small case studies, with room for the result. */
 .project {
   border-top: 1px solid var(--line);
@@ -1311,9 +1306,6 @@ details[open] > summary .expand-icon {
   }
   .work {
     padding-top: 29px;
-  }
-  .section-aside {
-    display: none;
   }
   .project summary {
     grid-template-columns: 20px minmax(0, 1fr) 32px;
