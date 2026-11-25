@@ -13,3 +13,6 @@ playwright-report/
 /Minimal Contact Page with Scheduling-2.png
 /Minimal dark portfolio with engineer and dog-1.png
 /NIVEDAN B R_Resume copy.pdf
+
+# Sentry Config File
+.env.sentry-build-plugin
